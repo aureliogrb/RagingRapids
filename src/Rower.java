@@ -24,7 +24,7 @@ public class Rower {
 
      */
     //Will say that ID is required
-    private char ID;
+    private String ID;
 
     private Rower(RowerBuilder builder) {
         this.ID = builder.id;
@@ -36,7 +36,7 @@ public class Rower {
         this.rightBack = builder.rightBack;
     }
 
-    public char getID() {
+    public String getID() {
         return ID;
     }
 
@@ -64,10 +64,23 @@ public class Rower {
         return rightBack;
     }
 
+    @Override
+    public String toString() {
+        return "Rower{" +
+                "ID=" + ID +
+                ", front=" + front +
+                ", back=" + back +
+                ", leftFront=" + leftFront +
+                ", leftBack=" + leftBack +
+                ", rightFront=" + rightFront +
+                ", rightBack=" + rightBack +
+                '}';
+    }
+
     //Builder Class
     public static class RowerBuilder{
 
-        private char id;
+        private String id;
 
         //Defaults to False
         private boolean front = false;
@@ -78,7 +91,7 @@ public class Rower {
         private boolean rightBack = false;
 
         //Builder Constructor has the required fields
-        public RowerBuilder (char id) {
+        public RowerBuilder (String id) {
             this.id =id;
         }
 
