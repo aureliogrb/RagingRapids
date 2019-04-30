@@ -28,7 +28,7 @@ public class Rower {
 
     //the rest are "optional" with default being false/concave.
 
-    private final boolean front, back, leftFront, leftBack, rightFront, rightBack;
+    private final boolean front,  leftFront, leftBack, back, rightBack, rightFront;
 
     private Rower(RowerBuilder builder) {
 

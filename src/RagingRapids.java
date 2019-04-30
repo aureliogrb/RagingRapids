@@ -39,7 +39,7 @@ public class RagingRapids {
 
         long end = System.nanoTime();
 
-        System.out.println("Elapsed " + (end - start) / 1_000_000 + " miliseconds.");
+        System.out.println(String.format("Elapsed %g miliseconds.", ((end - start) / 1_000_000.0)));
 
         start = System.nanoTime();
         //Lets flip the raft.
@@ -48,7 +48,7 @@ public class RagingRapids {
         //restart the rowers
         loadRowers(rowers);
 
-        if (seatNext(rowers, raft, 1, 1)) {
+        if (seatNext(rowers, raft, 1, 1,false)) {
             System.out.println("Solution Found! - Rope Back");
             drawRaft(raft);
 
@@ -57,7 +57,7 @@ public class RagingRapids {
 
         end = System.nanoTime();
 
-        System.out.println("Elapsed " + (end - start) / 1_000 + " microseconds.");
+        System.out.println(String.format("Elapsed %g miliseconds.", ((end - start) / 1_000_000.0)));
 
     }
 
@@ -191,11 +191,12 @@ public class RagingRapids {
                     if (seatNext(rowers, raft, nextRow, nextCol, showWork)) {
                         return true;
                     } else {
-                        //Get that Rower back in the list
-                        rowers.add(i, candidate);
 
-                        //Get him off the raft
+                        //Get the rower off the raft
                         raft[row][col] = null;
+
+                        //Get the rower back in the list of rowers to try
+                        rowers.add(i, candidate);
                     }
 
                 }
@@ -209,6 +210,9 @@ public class RagingRapids {
     private static boolean canSeat(Rower testRower, Rower[][] raft, int row, int col) {
         //Function to check if a rower can take a given seat
         //Check if the rower is "compatible" with the rowers on all sides.
+
+        //check if the seat is empty
+        if (raft[row][col]!=null) return false;
 
         //Check rower in front.
         if (raft[row - 1][col] != null)
