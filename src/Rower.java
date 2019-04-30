@@ -1,7 +1,7 @@
 
 public class Rower {
 
-    private final boolean front, back, leftFront, leftBack, rightFront, rightBack;
+
 
     /*And we have a boolean for each of the stubs on the rower
     If the stub is "male" we will have it as true, if female we
@@ -26,14 +26,23 @@ public class Rower {
     //Will say that ID is required
     private String ID;
 
+    //the rest are "optional" with default being false/concave.
+
+    private final boolean front, back, leftFront, leftBack, rightFront, rightBack;
+
     private Rower(RowerBuilder builder) {
+
         this.ID = builder.id;
+
         this.front = builder.front;
-        this.back = builder.back;
+
         this.leftFront = builder.leftFront;
         this.leftBack = builder.leftBack;
-        this.rightFront = builder.rightFront;
+
+        this.back = builder.back;
+
         this.rightBack = builder.rightBack;
+        this.rightFront = builder.rightFront;
     }
 
     public String getID() {
@@ -44,10 +53,6 @@ public class Rower {
         return front;
     }
 
-    public boolean isBack() {
-        return back;
-    }
-
     public boolean isLeftFront() {
         return leftFront;
     }
@@ -56,16 +61,25 @@ public class Rower {
         return leftBack;
     }
 
-    public boolean isRightFront() {
-        return rightFront;
+    public boolean isBack() {
+        return back;
     }
 
     public boolean isRightBack() {
         return rightBack;
     }
 
+    public boolean isRightFront() {
+        return rightFront;
+    }
+
+
     @Override
     public String toString() {
+
+        //List them counter clockwise so we can check if we wrote it right easily
+        //by feeling the edges will looking at the output of "toString".
+
         return "Rower{" +
                 "ID=" + ID +
                 ", front=" + front +
@@ -78,17 +92,23 @@ public class Rower {
     }
 
     //Builder Class
+    // as explained here https://www.journaldev.com/1425/builder-design-pattern-in-java
+
     public static class RowerBuilder {
 
         private String id;
 
         //Defaults to False
         private boolean front = false;
-        private boolean back = false;
+
         private boolean leftFront = false;
         private boolean leftBack = false;
-        private boolean rightFront = false;
+
+        private boolean back = false;
+
         private boolean rightBack = false;
+        private boolean rightFront = false;
+
 
         //Builder Constructor has the required fields
         public RowerBuilder(String id) {
@@ -101,10 +121,6 @@ public class Rower {
             return this;
         }
 
-        public RowerBuilder setBack() {
-            this.back = true;
-            return this;
-        }
 
         public RowerBuilder setLeftFront() {
             this.leftFront = true;
@@ -116,8 +132,8 @@ public class Rower {
             return this;
         }
 
-        public RowerBuilder setRightFront() {
-            this.rightFront = true;
+        public RowerBuilder setBack() {
+            this.back = true;
             return this;
         }
 
@@ -125,6 +141,12 @@ public class Rower {
             this.rightBack = true;
             return this;
         }
+
+        public RowerBuilder setRightFront() {
+            this.rightFront = true;
+            return this;
+        }
+
 
         public Rower build() {
             return new Rower(this);

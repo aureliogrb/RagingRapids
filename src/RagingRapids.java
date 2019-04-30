@@ -5,6 +5,8 @@ public class RagingRapids {
 
     public static void main(String[] args) {
 
+        long start = System.nanoTime();
+
         ArrayList<Rower> rowers = new ArrayList<>();
 
         loadRowers(rowers);
@@ -28,15 +30,20 @@ public class RagingRapids {
         */
 
 
-        if (seatNext(rowers, raft, 1, 1,true)) {
+        if (seatNext(rowers, raft, 1, 1, true)) {
             System.out.println("Solution Found! - Rope Front");
             drawRaft(raft);
 
         } else
             System.out.println("Couldn't solve it.");
 
+        long end = System.nanoTime();
+
+        System.out.println("Elapsed " + (end - start) / 1_000_000 + " miliseconds.");
+
+        start = System.nanoTime();
         //Lets flip the raft.
-        defineRaft_ropeBack (raft);
+        defineRaft_ropeBack(raft);
 
         //restart the rowers
         loadRowers(rowers);
@@ -47,6 +54,10 @@ public class RagingRapids {
 
         } else
             System.out.println("Couldn't solve it.");
+
+        end = System.nanoTime();
+
+        System.out.println("Elapsed " + (end - start) / 1_000 + " microseconds.");
 
     }
 
@@ -74,9 +85,9 @@ public class RagingRapids {
         raft[4][4] = new Rower.RowerBuilder("R4").setLeftFront().build();
 
         // just to be safe null the seats
-        for (int r = 1; r<=4; r++)
-            for (int c=1; c<=3; c++)
-                raft[r][c]=null;
+        for (int r = 1; r <= 4; r++)
+            for (int c = 1; c <= 3; c++)
+                raft[r][c] = null;
     }
 
     private static void defineRaft_ropeBack(Rower[][] raft) {
@@ -103,15 +114,16 @@ public class RagingRapids {
         raft[4][4] = new Rower.RowerBuilder("R4").setLeftFront().build();
 
         // just to be safe null the seats
-        for (int r = 1; r<=4; r++)
-            for (int c=1; c<=3; c++)
-                raft[r][c]=null;
+        for (int r = 1; r <= 4; r++)
+            for (int c = 1; c <= 3; c++)
+                raft[r][c] = null;
     }
+
     private static void loadRowers(ArrayList<Rower> rowers) {
         rowers.clear();
         rowers.add(new Rower.RowerBuilder("A").setLeftBack().setBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("B").setLeftFront().setBack().setRightBack().build());
-
+        rowers.add(new Rower.RowerBuilder("C").setFront().setLeftFront().setRightBack().build());
         rowers.add(new Rower.RowerBuilder("D").setLeftBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("E").setFront().setLeftBack().setBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("F").setLeftBack().setRightBack().build());
@@ -121,14 +133,12 @@ public class RagingRapids {
         rowers.add(new Rower.RowerBuilder("J").setFront().setLeftBack().setBack().setRightBack().build());
         rowers.add(new Rower.RowerBuilder("K").setFront().setLeftFront().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("L").setLeftFront().setRightFront().build());
-
-        rowers.add(new Rower.RowerBuilder("C").setFront().setLeftFront().setRightBack().build());
     }
 
     private static void drawRaft(Rower[][] raft) {
-        for (int r=1; r<=4; r++) {
+        for (int r = 1; r <= 4; r++) {
             for (int c = 1; c <= 3; c++) {
-                if (raft[r][c] !=null)
+                if (raft[r][c] != null)
                     System.out.print(raft[r][c].getID());
                 else
                     System.out.print('*');
@@ -140,12 +150,12 @@ public class RagingRapids {
     }
 
     private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col) {
-        return seatNext  (rowers,raft,row,col,false);
+        return seatNext(rowers, raft, row, col, false);
     }
 
-    private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col,boolean showWork) {
+    private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col, boolean showWork) {
         //if we are at the last seat
-        if ((rowers.size() == 1) && (row == 4) && (col == 3)) {
+        if ((1 == rowers.size()) && (4 == row) && (3 == col)) {
             if (canSeat(rowers.get(0), raft, row, col)) {
                 raft[row][col] = rowers.get(0);
                 rowers.clear();
@@ -164,7 +174,7 @@ public class RagingRapids {
 
                     //Print the raft so far
                     if (showWork)
-                    drawRaft(raft);
+                        drawRaft(raft);
 
                     //Figure out what the next seat would be
 
@@ -178,7 +188,7 @@ public class RagingRapids {
                     }
 
                     //See if we can fit the next rowers
-                    if (seatNext(rowers, raft, nextRow, nextCol,showWork)) {
+                    if (seatNext(rowers, raft, nextRow, nextCol, showWork)) {
                         return true;
                     } else {
                         //Get that Rower back in the list
@@ -197,7 +207,7 @@ public class RagingRapids {
     }
 
     private static boolean canSeat(Rower testRower, Rower[][] raft, int row, int col) {
-        //Function to check if a rower can take a seat
+        //Function to check if a rower can take a given seat
         //Check if the rower is "compatible" with the rowers on all sides.
 
         //Check rower in front.
