@@ -28,7 +28,7 @@ public class RagingRapids {
         */
 
 
-        if (seatNext(rowers, raft, 1, 1)) {
+        if (seatNext(rowers, raft, 1, 1,true)) {
             System.out.println("Solution Found! - Rope Front");
             drawRaft(raft);
 
@@ -111,7 +111,7 @@ public class RagingRapids {
         rowers.clear();
         rowers.add(new Rower.RowerBuilder("A").setLeftBack().setBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("B").setLeftFront().setBack().setRightBack().build());
-        rowers.add(new Rower.RowerBuilder("C").setFront().setLeftFront().setRightBack().build());
+
         rowers.add(new Rower.RowerBuilder("D").setLeftBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("E").setFront().setLeftBack().setBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("F").setLeftBack().setRightBack().build());
@@ -121,6 +121,8 @@ public class RagingRapids {
         rowers.add(new Rower.RowerBuilder("J").setFront().setLeftBack().setBack().setRightBack().build());
         rowers.add(new Rower.RowerBuilder("K").setFront().setLeftFront().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("L").setLeftFront().setRightFront().build());
+
+        rowers.add(new Rower.RowerBuilder("C").setFront().setLeftFront().setRightBack().build());
     }
 
     private static void drawRaft(Rower[][] raft) {
@@ -138,6 +140,10 @@ public class RagingRapids {
     }
 
     private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col) {
+        return seatNext  (rowers,raft,row,col,false);
+    }
+
+    private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col,boolean showWork) {
         //if we are at the last seat
         if ((rowers.size() == 1) && (row == 4) && (col == 3)) {
             if (canSeat(rowers.get(0), raft, row, col)) {
@@ -157,7 +163,8 @@ public class RagingRapids {
                     raft[row][col] = candidate;
 
                     //Print the raft so far
-                    //drawRaft(raft);
+                    if (showWork)
+                    drawRaft(raft);
 
                     //Figure out what the next seat would be
 
@@ -171,7 +178,7 @@ public class RagingRapids {
                     }
 
                     //See if we can fit the next rowers
-                    if (seatNext(rowers, raft, nextRow, nextCol)) {
+                    if (seatNext(rowers, raft, nextRow, nextCol,showWork)) {
                         return true;
                     } else {
                         //Get that Rower back in the list
@@ -183,6 +190,7 @@ public class RagingRapids {
 
                 }
             }
+            //if we went through all the rowers and couldn't seat one
             return false;
         }
 
