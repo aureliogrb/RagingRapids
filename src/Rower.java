@@ -69,16 +69,16 @@ public class Rower {
         return "Rower{" +
                 "ID=" + ID +
                 ", front=" + front +
-                ", back=" + back +
                 ", leftFront=" + leftFront +
                 ", leftBack=" + leftBack +
-                ", rightFront=" + rightFront +
+                ", back=" + back +
                 ", rightBack=" + rightBack +
+                ", rightFront=" + rightFront +
                 '}';
     }
 
     //Builder Class
-    public static class RowerBuilder{
+    public static class RowerBuilder {
 
         private String id;
 
@@ -91,8 +91,8 @@ public class Rower {
         private boolean rightBack = false;
 
         //Builder Constructor has the required fields
-        public RowerBuilder (String id) {
-            this.id =id;
+        public RowerBuilder(String id) {
+            this.id = id;
         }
 
         //Optional fields are set with additional methods
