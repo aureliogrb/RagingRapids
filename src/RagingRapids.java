@@ -120,6 +120,7 @@ public class RagingRapids {
     }
 
     private static void loadRowers(ArrayList<Rower> rowers) {
+
         rowers.clear();
         rowers.add(new Rower.RowerBuilder("A").setLeftBack().setBack().setRightFront().build());
         rowers.add(new Rower.RowerBuilder("B").setLeftFront().setBack().setRightBack().build());
@@ -155,22 +156,22 @@ public class RagingRapids {
 
     private static boolean seatNext(ArrayList<Rower> rowers, Rower[][] raft, int row, int col, boolean showWork) {
         //if we are at the last seat
-        if ((1 == rowers.size()) && (4 == row) && (3 == col)) {
-            if (canSeat(rowers.get(0), raft, row, col)) {
-                raft[row][col] = rowers.get(0);
-                rowers.clear();
+        if ((4 == row) && (3 == col)) {
+            Rower candidate = rowers.stream().filter(r-> !(r.isSeated())).findFirst().get();
+            if (canSeat(candidate, raft, row, col)) {
+                raft[row][col] = candidate;
+                candidate.setSeated(true);
                 return true;
             } else
                 return false;
         } else {
             //try all the rowers that fit on the current seat
             for (int i = 0; i < rowers.size(); i++) {
-                if (canSeat(rowers.get(i), raft, row, col)) {
-                    //Get the rower out of the collections.
-                    Rower candidate = rowers.remove(i);
+                if (!rowers.get(i).isSeated() && canSeat(rowers.get(i), raft, row, col)) {
 
                     //Seat this rower
-                    raft[row][col] = candidate;
+                    raft[row][col] = rowers.get(i);
+                    rowers.get(i).setSeated(true);
 
                     //Print the raft so far
                     if (showWork)
@@ -196,7 +197,7 @@ public class RagingRapids {
                         raft[row][col] = null;
 
                         //Get the rower back in the list of rowers to try
-                        rowers.add(i, candidate);
+                        rowers.get(i).setSeated(false);
                     }
 
                 }

@@ -30,6 +30,9 @@ public class Rower {
 
     private final boolean front,  leftFront, leftBack, back, rightBack, rightFront;
 
+    //And one mutable field to figure out if the rower is already in the raft
+    private boolean seated = false;
+
     private Rower(RowerBuilder builder) {
 
         this.ID = builder.id;
@@ -43,6 +46,8 @@ public class Rower {
 
         this.rightBack = builder.rightBack;
         this.rightFront = builder.rightFront;
+
+        this.seated = builder.seated;
     }
 
     public String getID() {
@@ -72,6 +77,15 @@ public class Rower {
     public boolean isRightFront() {
         return rightFront;
     }
+
+    public boolean isSeated() {
+        return seated;
+    }
+
+    public void setSeated(boolean seated) {
+        this.seated = seated;
+    }
+
 
 
     @Override
@@ -109,6 +123,7 @@ public class Rower {
         private boolean rightBack = false;
         private boolean rightFront = false;
 
+        private boolean seated = false;
 
         //Builder Constructor has the required fields
         public RowerBuilder(String id) {
@@ -144,6 +159,11 @@ public class Rower {
 
         public RowerBuilder setRightFront() {
             this.rightFront = true;
+            return this;
+        }
+
+        public RowerBuilder setSeated() {
+            this.seated = true;
             return this;
         }
 
